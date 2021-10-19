@@ -21,7 +21,9 @@ const Resturant = () => {
             const savedDb = getDb();
             const savedOrder = [];
             for(const mealId in savedDb){
+                
                 const meal = meals.find(ml=>ml.idMeal === mealId)
+                //ei 2 line clear bujhi nai
                 const quantity = savedDb[mealId];
                 meal.quantity = quantity;
                 savedOrder.push(meal); 
@@ -33,6 +35,8 @@ const Resturant = () => {
     },[meals])
 
     const handleOrder =(meal) =>{
+        //jeheto main obj e quantity nei so initially amra quamtity 1 dhore dilam
+        meal.quantity = 1;
         const newOrder = [...order, meal];
         setOrder(newOrder);
        addToDb(meal.idMeal)
