@@ -1,6 +1,7 @@
 import React from 'react';
 
 const Orderlist = (props) => {
+
     const {order} = props;
     const countReducer = (pre, curr) =>pre + curr.quantity;
     const count = order.reduce(countReducer,0)

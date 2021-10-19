@@ -8,3 +8,17 @@
     grid-gap: 6px;
     
 }
+.searchbar{
+    background-color: black;
+    height: 90px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchbar input{
+    width: 50%;
+    height: 30px;
+    border-radius: 5px;
+}

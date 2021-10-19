@@ -8,11 +8,25 @@ import './Resturant.css';
 const Resturant = () => {
     const [meals, setMeals] = useState([]);
     const [order, setOrder] = useState([]);
+    const [searchValue, setSearchValue] = useState('');
+    const [showValue, setShowValue] = useState([]);
     useEffect(()=>{
         fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=b')
         .then(res=>res.json())
         .then(data=>setMeals(data.meals))
     },[]);
+
+    //search api load 
+    useEffect(()=>{
+        const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`
+        fetch(url)
+        .then(res=>res.json())
+        .then(data=>{
+            if(data.meals!==null){
+                setShowValue(data.meals)
+            }
+        })
+    },[searchValue])
 
     //load and show local storage data on ui=>
 
@@ -23,10 +37,10 @@ const Resturant = () => {
             for(const mealId in savedDb){
                 
                 const meal = meals.find(ml=>ml.idMeal === mealId)
-                //ei 2 line clear bujhi nai
                 const quantity = savedDb[mealId];
                 meal.quantity = quantity;
                 savedOrder.push(meal); 
+
             }
             setOrder(savedOrder)
         }
@@ -42,14 +56,28 @@ const Resturant = () => {
        addToDb(meal.idMeal)
     }
 
+    const handleSearch = (e) =>{
+        const searchText = e.target.value;
+        console.log(searchText);
+        if(searchText !==''){
+            setSearchValue(searchText)
+        }
+        
+    }
     return (
         <div>
 
            <section>
+
+            <div className="searchbar">
+                    <input onChange={handleSearch} type="text" placeholder="please search your food"/>
+            </div>       
                <div className="main-container">
+
                     <div className="meal-conatiner">
+                        
                         {
-                            meals.map(meal=><Meal meal={meal}
+                            showValue.map(meal=><Meal meal={meal}
                             handleOrder={handleOrder}
                             key={meal.idMeal}
                             ></Meal>)

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import './Meal.css';
 
 const Meal = (props) => {
