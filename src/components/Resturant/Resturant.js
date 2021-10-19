@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react/cjs/react.development';
+import { addToDb, getDb } from '../../localstorage/localstorage';
 import Meal from '../Meal/Meal';
 import Orderlist from '../Orderlist/Orderlist';
 import './Resturant.css';
@@ -13,9 +14,28 @@ const Resturant = () => {
         .then(data=>setMeals(data.meals))
     },[]);
 
+    //load and show local storage data on ui=>
+
+    useEffect(()=>{
+        if(meals.length){
+            const savedDb = getDb();
+            const savedOrder = [];
+            for(const mealId in savedDb){
+                const meal = meals.find(ml=>ml.idMeal === mealId)
+                const quantity = savedDb[mealId];
+                meal.quantity = quantity;
+                savedOrder.push(meal); 
+            }
+            setOrder(savedOrder)
+        }
+        
+
+    },[meals])
+
     const handleOrder =(meal) =>{
         const newOrder = [...order, meal];
         setOrder(newOrder);
+       addToDb(meal.idMeal)
     }
 
     return (
