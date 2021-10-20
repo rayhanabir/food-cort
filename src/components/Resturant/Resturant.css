@@ -1,0 +1,24 @@
+.main-container{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+.meal-conatiner{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 6px;
+    
+}
+.searchbar{
+    background-color: black;
+    height: 90px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchbar input{
+    width: 50%;
+    height: 30px;
+    border-radius: 5px;
+}

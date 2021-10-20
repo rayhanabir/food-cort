@@ -1,0 +1,16 @@
+.meal-card{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+}
+.single-card{
+    width: 290px;
+    border: 1px solid gray;
+    text-align: center;
+    padding: 8px;
+    border-radius: 5px;
+}
+.single-card img{
+    width: 200px;
+
+}
