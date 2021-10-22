@@ -8,25 +8,23 @@ import './Resturant.css';
 const Resturant = () => {
     const [meals, setMeals] = useState([]);
     const [order, setOrder] = useState([]);
-    // const [searchValue, setSearchValue] = useState('');
-    // const [showValue, setShowValue] = useState([]);
+    const [searchValue, setSearchValue] = useState('');
+    const [showValue, setShowValue] = useState([]);
     useEffect(()=>{
         fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=b')
         .then(res=>res.json())
         .then(data=>setMeals(data.meals))
     },[]);
 
-    //search api load 
-    // useEffect(()=>{
-    //     const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`
-    //     fetch(url)
-    //     .then(res=>res.json())
-    //     .then(data=>{
-    //         if(data.meals!==null){
-    //             setShowValue(data.meals)
-    //         }
-    //     })
-    // },[searchValue])
+    // search api load 
+    useEffect(()=>{
+        const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`
+        fetch(url)
+        .then(res=>res.json())
+        .then(data=>{
+           setShowValue(data.meals)
+        })
+    },[searchValue])
 
     //load and show local storage data on ui=>
 
@@ -37,7 +35,7 @@ const Resturant = () => {
             for(const mealId in savedDb){
                 const meal = meals.find(ml=>ml.idMeal === mealId)
                 let quantity = savedDb[mealId];
-                console.log(quantity)
+                // console.log(quantity)
                  meal.quantity = quantity;
                 savedOrder.push(meal);
         }
@@ -48,23 +46,24 @@ const Resturant = () => {
 
 
 
-    // useEffect(()=>{
-    //     if(meals.length){
-    //         const savedDb = getDb();
-    //         const savedOrder = [];
-    //         for(const mealId in savedDb){
+    useEffect(()=>{
+        if(meals.length){
+            const savedDb = getDb();
+            const savedOrder = [];
+            for(const mealId in savedDb){
                 
-    //             const meal = meals.find(ml=>ml.idMeal === mealId)
-    //             const quantity = savedDb[mealId];
-    //             meal.quantity = quantity;
-    //             savedOrder.push(meal); 
+                const meal = meals.find(ml=>ml.idMeal === mealId)
+                const quantity = savedDb[mealId];
+                console.log(quantity)
+                meal.quantity = quantity;
+                savedOrder.push(meal); 
 
-    //         }
-    //         setOrder(savedOrder)
-    //     }
+            }
+            setOrder(savedOrder)
+        }
         
 
-    // },[meals])
+    },[meals])
 
     const handleOrder =(meal) =>{
         //jeheto main obj e quantity nei so initially amra quamtity 1 dhore dilam
@@ -74,21 +73,18 @@ const Resturant = () => {
        addToDb(meal.idMeal)
     }
 
-    // const handleSearch = (e) =>{
-    //     const searchText = e.target.value;
+    const handleSearch = (e) =>{
+        const searchText = e.target.value;
+        setSearchValue(searchText)
         
-    //     if(searchText !==''){
-    //         setSearchValue(searchText)
-    //     }
-        
-    // }
+    }
     return (
         <div>
 
            <section>
 
             <div className="searchbar">
-                    <input type="text" placeholder="please search your food"/>
+                    <input onChange={handleSearch} type="text" placeholder="please search your food"/>
             </div>       
                <div className="main-container">
 
