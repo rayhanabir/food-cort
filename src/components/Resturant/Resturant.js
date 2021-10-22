@@ -8,8 +8,8 @@ import './Resturant.css';
 const Resturant = () => {
     const [meals, setMeals] = useState([]);
     const [order, setOrder] = useState([]);
-    const [searchValue, setSearchValue] = useState('');
-    const [showValue, setShowValue] = useState([]);
+    // const [searchValue, setSearchValue] = useState('');
+    // const [showValue, setShowValue] = useState([]);
     useEffect(()=>{
         fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=b')
         .then(res=>res.json())
@@ -17,14 +17,14 @@ const Resturant = () => {
     },[]);
 
     // search api load 
-    useEffect(()=>{
-        const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`
-        fetch(url)
-        .then(res=>res.json())
-        .then(data=>{
-           setShowValue(data.meals)
-        })
-    },[searchValue])
+    // useEffect(()=>{
+    //     const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`
+    //     fetch(url)
+    //     .then(res=>res.json())
+    //     .then(data=>{
+    //        setShowValue(data.meals)
+    //     })
+    // },[searchValue])
 
     //load and show local storage data on ui=>
 
@@ -34,33 +34,13 @@ const Resturant = () => {
             let savedOrder = [];
             for(const mealId in savedDb){
                 const meal = meals.find(ml=>ml.idMeal === mealId)
-                let quantity = savedDb[mealId];
+                const quantity = savedDb[mealId];
                 // console.log(quantity)
                  meal.quantity = quantity;
                 savedOrder.push(meal);
         }
+        setOrder(savedOrder)
     }
-        
-
-    },[meals])
-
-
-
-    useEffect(()=>{
-        if(meals.length){
-            const savedDb = getDb();
-            const savedOrder = [];
-            for(const mealId in savedDb){
-                
-                const meal = meals.find(ml=>ml.idMeal === mealId)
-                const quantity = savedDb[mealId];
-                console.log(quantity)
-                meal.quantity = quantity;
-                savedOrder.push(meal); 
-
-            }
-            setOrder(savedOrder)
-        }
         
 
     },[meals])
@@ -73,18 +53,43 @@ const Resturant = () => {
        addToDb(meal.idMeal)
     }
 
-    const handleSearch = (e) =>{
-        const searchText = e.target.value;
-        setSearchValue(searchText)
+
+        // jhankar bhai code
+
+                                // useEffect(() => {
+                                //     if (meals.length) {
+                                //         const savedDb = getDb();
+                                //         const savedOrder = [];
+                                //         for (const mealId in savedDb) {
+                                //             const meal = meals.find(ml => ml.idMeal === mealId)
+                                //             const quantity = savedDb[mealId];
+                                //             meal.quantity = quantity;
+                                //             savedOrder.push(meal);
+                                //         }
+                                //         setOrder(savedOrder);
+                                //     }
+                                // }, [meals])
+                            
+                                // const handleOrder = meal => {
+                                //     meal.quantity = 1;
+                                //     const newOrder = [...order, meal];
+                                //     setOrder(newOrder);
+                                //     addToDb(meal.idMeal);
+                                // }
+
+
+    // const handleSearch = (e) =>{
+    //     const searchText = e.target.value;
+    //     setSearchValue(searchText)
         
-    }
+    // }
     return (
         <div>
 
            <section>
 
             <div className="searchbar">
-                    <input onChange={handleSearch} type="text" placeholder="please search your food"/>
+                    <input  type="text" placeholder="please search your food"/>
             </div>       
                <div className="main-container">
 
