@@ -81,7 +81,7 @@ function App() {
     })
   }
 
-  //reset email :
+  //reset email functionality :
 
   const handleResetPassword =()=>{
     sendPasswordResetEmail(auth, email)
